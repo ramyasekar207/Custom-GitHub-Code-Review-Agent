@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Review a GitHub repository or file with friendly, actionable AI-style feedback."
+    >
+    <title>GitHub Code Reviewer AI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="GitHub Code Reviewer AI home">
+        <svg
+          class="brand__icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            fill="currentColor"
+            d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.56.1.76-.24.76-.54v-2.1c-3.1.67-3.76-1.32-3.76-1.32-.5-1.29-1.24-1.63-1.24-1.63-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15 1 .1.56 2.26 3.42 1.59.1-.72.39-1.21.7-1.49-2.48-.28-5.09-1.24-5.09-5.52 0-1.22.44-2.21 1.15-2.99-.11-.28-.5-1.42.11-2.95 0 0 .94-.3 3.05 1.14a10.6 10.6 0 0 1 5.55 0c2.11-1.44 3.05-1.14 3.05-1.14.61 1.53.22 2.67.11 2.95.71.78 1.15 1.77 1.15 2.99 0 4.29-2.62 5.23-5.11 5.51.4.35.75 1.03.75 2.08v3.08c0 .3.2.65.77.54A11.1 11.1 0 0 0 12 .9Z"
+          ></path>
+        </svg>
+        <span>GitHub Code Reviewer <span class="brand__accent">AI</span></span>
+      </a>
+      <span class="header-note">Thoughtful feedback for better code</span>
+    </header>
+
+    <main class="page-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">YOUR FRIENDLY CODE REVIEWER</p>
+        <h1 id="page-title">Make your next review <span>more useful.</span></h1>
+        <p class="intro__copy">
+          Share a GitHub repository or file and get clear, actionable feedback
+          on what is working and what could be improved.
+        </p>
+      </section>
+
+      <section class="review-card" aria-labelledby="review-form-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">START A REVIEW</p>
+            <h2 id="review-form-title">What should we look at?</h2>
+          </div>
+          <span class="step-badge" aria-hidden="true">01</span>
+        </div>
+
+        <div
+          class="notification"
+          id="notification"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          hidden
+        ></div>
+
+        <form id="review-form" novalidate>
+          <div class="form-field">
+            <label for="repository-url">GitHub repository or file URL</label>
+            <div class="input-with-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path
+                  d="M10 13a5 5 0 0 0 7.07 0l3-3A5 5 0 0 0 13 2.93l-1.72 1.71M14 11a5 5 0 0 0-7.07 0l-3 3A5 5 0 0 0 11 21.07l1.71-1.71"
+                ></path>
+              </svg>
+              <input
+                id="repository-url"
+                name="repositoryUrl"
+                type="url"
+                placeholder="https://github.com/owner/repository"
+                autocomplete="url"
+                aria-describedby="url-help url-error"
+                required
+              >
+            </div>
+            <p class="field-help" id="url-help">
+              Paste a public GitHub link. To preview source code, use a file link with /blob/branch/path.
+            </p>
+            <p class="field-error" id="url-error" role="alert" hidden></p>
+          </div>
+
+          <div class="form-field code-field">
+            <label for="github-code">GitHub source code</label>
+            <textarea
+              id="github-code"
+              name="githubCode"
+              rows="12"
+              placeholder="Enter a GitHub file URL above, then select Load code."
+              aria-describedby="code-help code-status"
+              readonly
+              spellcheck="false"
+            ></textarea>
+            <div class="code-controls">
+              <p class="field-help" id="code-help">
+                The preview shows the contents of a public GitHub file.
+              </p>
+              <button class="button button--secondary" id="load-code-button" type="button">
+                Load code
+              </button>
+            </div>
+            <p class="code-status" id="code-status" role="status" aria-live="polite" hidden></p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="language">Programming language</label>
+              <select id="language" name="language" required>
+                <option value="Java">Java</option>
+                <option value="JavaScript" selected>JavaScript</option>
+                <option value="TypeScript">TypeScript</option>
+                <option value="Python">Python</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="review-type">Review focus</label>
+              <select id="review-type" name="reviewType" required>
+                <option value="Full Review" selected>Full Review</option>
+                <option value="Code Quality">Code Quality</option>
+                <option value="Security">Security</option>
+                <option value="Performance">Performance</option>
+                <option value="Best Practices">Best Practices</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="instructions">Additional instructions <span class="label-optional">Optional</span></label>
+            <textarea
+              id="instructions"
+              name="instructions"
+              rows="4"
+              placeholder="For example: focus on readability or explain suggestions for a beginner."
+            ></textarea>
+          </div>
+
+          <div class="form-footer">
+            <p class="privacy-note">Sends the loaded code to your local n8n workflow</p>
+            <div class="button-group">
+              <button class="button button--secondary" type="reset">Clear</button>
+              <button class="button button--primary" id="review-button" type="submit">
+                <span>Review code</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M5 12h14M13 6l6 6-6 6"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+          <p class="loading-message" id="loading-message" role="status" aria-live="polite" hidden>
+            Sending code to your review workflow…
+          </p>
+        </form>
+      </section>
+
+      <section class="results" id="results" aria-labelledby="results-title" hidden>
+        <div class="results-heading">
+          <div>
+            <p class="eyebrow">REVIEW COMPLETE</p>
+            <h2 id="results-title">Your review results</h2>
+          </div>
+          <span class="review-focus" id="result-focus"></span>
+        </div>
+
+        <div class="metrics-grid" aria-label="Review metrics">
+          <article class="metric-card metric-card--score">
+            <p class="metric-label">Quality score</p>
+            <p class="score-value"><span id="quality-score">—</span><span class="score-total">/100</span></p>
+            <div
+              class="score-meter"
+              id="score-meter"
+              role="progressbar"
+              aria-label="Code quality score"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <span id="score-meter-fill"></span>
+            </div>
+            <p class="metric-caption" id="score-caption" hidden></p>
+          </article>
+          <article class="metric-card">
+            <p class="metric-label">Issues found</p>
+            <p class="issue-value" id="issue-count">—</p>
+            <p class="metric-caption" id="issue-caption">Not returned by the workflow</p>
+          </article>
+        </div>
+
+        <section class="result-section" aria-labelledby="workflow-report-title">
+          <div class="result-section__heading">
+            <div>
+              <p class="eyebrow">FROM YOUR N8N WORKFLOW</p>
+              <h3 id="workflow-report-title">Full review report</h3>
+            </div>
+          </div>
+          <pre class="workflow-report" id="workflow-report"></pre>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Built for learning, one thoughtful review at a time.</p>
+    </footer>
+  </body>
+</html>
